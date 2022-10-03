@@ -1,0 +1,27 @@
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#mySchedule {
+    text-align: center;
+    background-image: linear-gradient(white, lightgray);
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse; 
+    padding: 15px;
+    margin: 15px;
+}
+
+th {
+    width: 10%;
+}
+
+.schedule-container li {
+    font-weight: normal;
+}
+h2 {
+    text-align: center;
+}

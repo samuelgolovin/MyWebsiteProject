@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<link rel="stylesheet" href="css/maincss.css" >
+
+</head>
+
+<body>
+
+<div id="splashscreen">
+	Click to Play Hangman!
+</div>	
+
+<div id="game-page">
+
+	<header>
+		<h1 class="center">Hangman Game</h1>
+	</header>
+
+	<div class="hangman-container, center, showBorder">
+		<h2>Instructions to play: </h2>
+		<p class="instructions-container">
+			In order to play hangman, please type your guess below.
+			you have 6 guesses or you lose! Goodluck!
+		</p>
+			<div class="showBorder">
+				<img id="hangmanpic" src="img/hangman6.png" alt="Hangman image" />
+				<div class="overlay"><img src="img/fireworks-gif-transparent-12.gif" alt="victory fireworks" width: 100%;></div>
+			<div/>
+			
+			<span id="letter-spaces">Press New Game to play!</span><br/><br/>
+
+			<div id="guess-container">
+				<span id="guessArea"></span><br/><br/>
+				<input id="guess" type="text" size="1" maxlength="1" />
+				<button id="guessBtn" onclick="guessLetter()">Guess</button><br/><br/>
+			</div>
+			<div><button onclick="startNewGame()">New Game</button></div><br/><br/>
+		</div>
+	
+	<footer>
+		<div class="center">Copyright &copy; Samuel Golovin</div>
+	</footer>
+
+
+</div>
+</body>
+
+<script src="js/hangmanjs.js" type="text/javascript"></script>
+<script src="js/wordsjs.js" type="text/javascript"></script>
+
+</html>
