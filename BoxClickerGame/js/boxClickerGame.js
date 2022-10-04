@@ -2,7 +2,7 @@
 // var firstGame = new Boolean(true);
 // var gameFinished = new Boolean(false);
 var maxZ = 1000;
-var topTimes = [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000];
+var topTimes = [7.035, 7.194, 7.221, 0.234, 7.254, 7.523, 7.809, 8.247, 8.268, 9.427];
 var startTime, endTime;
 var boxCount;			//sets a set number of boxes in startNewGame function
 var firstClick = new Boolean(true);
