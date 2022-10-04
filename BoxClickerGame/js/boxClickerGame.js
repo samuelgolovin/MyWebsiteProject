@@ -3,6 +3,8 @@
 // var gameFinished = new Boolean(false);
 var maxZ = 1000;
 var topTimes = [7.035, 7.194, 7.221, 0.234, 7.254, 7.523, 7.809, 8.247, 8.268, 9.427];
+var recordHolders = [];
+recordHolders[topTimes[0]] = "Samuel";
 var startTime, endTime;
 var boxCount;			//sets a set number of boxes in startNewGame function
 var firstClick = new Boolean(true);
@@ -83,7 +85,7 @@ function fastestTimes() {
 		topTimes.push(latestTime);	//adds the new faster time to the end
 	}
 	//sorts the times from fastest to slowest
-	topTimes.sort(function(a, b){return a -b});
+	topTimes.sort(function(a, b){return a - b});
 }
 
 //displays times to the screen
@@ -95,7 +97,7 @@ function displayTopTimes() {
 	displaytoptimes.innerHTML = topTimes;
 	for(var i = 0; i < topTimes.length; i++) {
 		if (i == 0) {
-			toDisplay += (i + 1) + "st place: " + topTimes[i].toFixed(3) + "<br/>" ;
+			toDisplay += recordHolders[topTimes[0]] + (i + 1) + "st place: " + topTimes[i].toFixed(3) + "<br/>" ;
 		}
 		else if (i == 1) {
 			toDisplay += (i + 1) + "nd place: " + topTimes[i].toFixed(3) + "<br/>" ;
@@ -109,3 +111,23 @@ function displayTopTimes() {
 	//prints out the scores so the <span> in index.html
 	displaytoptimes.innerHTML = toDisplay;
 }
+
+function Player(myName, myTime) {
+	this.name = myName;
+	this.time = myTime;
+}
+
+player1 = new Player("Samuel", 8.000);
+player2 = new Player("Daniel", 7.555);
+player3 = new Player("Jonathan", 7.345);
+
+Players = [player1, player2, player3];
+
+function displayLeaderboard() {
+	let theExport = "";
+	Players.sort((aPlayer, bPlayer)=>aPlayer.time - bPlayer.time);
+	Players.forEach((player) => theExport += '<tr><td>' + player.name + '</td><td>' + player.time + '</td></tr>');
+	document.getElementById("topTimesTable").innerHTML = theExport;
+}
+
+displayLeaderboard(Players);
