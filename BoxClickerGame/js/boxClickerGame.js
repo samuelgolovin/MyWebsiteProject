@@ -1,11 +1,16 @@
 //just some variables required to make the game functional
 // var firstGame = new Boolean(true);
 // var gameFinished = new Boolean(false);
+var maxZ = 1000;
+var topTimes = [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000];
+var startTime, endTime;
+var boxCount;			//sets a set number of boxes in startNewGame function
+var firstClick = new Boolean(true);
+var latestTime;
 
 window.onload = function() {
 	var start = document.getElementById("add").addEventListener("click", startNewGame);
-	
-
+	displayTopTimes();
 
 
 	//starting game and splashscreen variables (bring back start screen after the game is more developed make sure to change the css to splashscreen:flex and game-area:none)
@@ -32,13 +37,75 @@ function getRandomColor() {
 function startNewGame() {
 	//game functions that create boxes at the start of the game
 	var boxArea = document.getElementById("boxarea");
-	var boxCount = parseInt(Math.random() * 21) + 30; 		//sets random number of boxes from in a range from 5 - 10
+	//gets rid of any boxes if new game is started before all boxes are gone
+	boxArea.innerHTML = "";
+	boxCount = parseInt(Math.random() * 21) + 30; 		//sets random number of boxes from in a range from 5 - 10
 	for(var i = 0; i < boxCount; i++) {
 		var box = document.createElement("div"); 		//creates a new box
 		box.className = "box";
 		box.style.left = 2 + parseInt(Math.random() * 646) + "px";
 		box.style.top = 2 + parseInt(Math.random() * 246) + "px";
 		box.style.backgroundColor = getRandomColor();
+		box.addEventListener("mouseup", boxClick);
 		boxArea.appendChild(box);
 	}
+
+	firstClick = true;
+}
+
+function boxClick() {
+	//start timer
+	if (firstClick) {
+		startTime = performance.now();
+		firstClick = false;
+	}
+
+	//delete boxes as they are clicked and change the amount of boxes left
+	this.parentNode.removeChild(this);
+	boxCount--;
+
+	//stop timer
+	if (boxCount <= 0) {
+		endTime = performance.now();
+		var timeDiff = endTime - startTime; //in ms 
+		//get seconds 
+		var timeSeconds = timeDiff/1000;
+		console.log(timeSeconds.toFixed(3) + " seconds");
+		latestTime = timeSeconds;
+		displayTopTimes();
+	}
+}
+
+//checks to see if the latest time is faster than the slowest one on record
+function fastestTimes() {
+	if (latestTime < topTimes[topTimes.length - 1]) {
+		topTimes.pop();				//gets rid of the slowest time
+		topTimes.push(latestTime);	//adds the new faster time to the end
+	}
+	//sorts the times from fastest to slowest
+	topTimes.sort(function(a, b){return a -b});
+}
+
+//displays times to the screen
+function displayTopTimes() {
+	//runs fastestTimes(); to make sure the times are sorted from fastest to slowest
+	fastestTimes();
+	var displaytoptimes = document.getElementById("topTimesForNow");
+	var toDisplay = "";
+	displaytoptimes.innerHTML = topTimes;
+	for(var i = 0; i < topTimes.length; i++) {
+		if (i == 0) {
+			toDisplay += (i + 1) + "st place: " + topTimes[i].toFixed(3) + "<br/>" ;
+		}
+		else if (i == 1) {
+			toDisplay += (i + 1) + "nd place: " + topTimes[i].toFixed(3) + "<br/>" ;
+		}
+		else if (i == 2) {
+			toDisplay += (i + 1) + "rd place: " + topTimes[i].toFixed(3) + "<br/>" ;
+		} else {
+			toDisplay += (i + 1) + "th place: " + topTimes[i].toFixed(3) + "<br/>" ;
+		}
+	}
+	//prints out the scores so the <span> in index.html
+	displaytoptimes.innerHTML = toDisplay;
 }
