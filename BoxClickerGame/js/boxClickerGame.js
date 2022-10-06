@@ -2,11 +2,15 @@
 // var firstGame = new Boolean(true);
 // var gameFinished = new Boolean(false);
 var maxZ = 1000;
-var topTimes = [7.035, 7.194, 7.221, 0.234, 7.254, 7.523, 7.809, 8.247, 8.268, 9.427];
+var topTimes = [7.035, 7.194, 7.221, 7.234, 7.254, 7.523, 7.809, 8.247, 8.268, 9.427];
 var startTime, endTime;
 var boxCount;			//sets a set number of boxes in startNewGame function
 var firstClick = new Boolean(true);
 var latestTime;
+var oldX = null;
+var oldY = null;
+var moving = null;
+
 
 window.onload = function() {
 	var start = document.getElementById("add").addEventListener("click", startNewGame);
@@ -39,18 +43,43 @@ function startNewGame() {
 	var boxArea = document.getElementById("boxarea");
 	//gets rid of any boxes if new game is started before all boxes are gone
 	boxArea.innerHTML = "";
-	boxCount = parseInt(Math.random() * 21) + 30; 		//sets random number of boxes from in a range from 5 - 10
+	boxCount = 5;//parseInt(Math.random() * 21) + 30; 		//sets random number of boxes from in a range from 5 - 10
 	for(var i = 0; i < boxCount; i++) {
-		var box = document.createElement("div"); 		//creates a new box
+		var box = $(document.createElement("div")); 		//creates a new box
 		box.className = "box";
 		box.style.left = 2 + parseInt(Math.random() * 646) + "px";
 		box.style.top = 2 + parseInt(Math.random() * 246) + "px";
 		box.style.backgroundColor = getRandomColor();
-		box.addEventListener("mouseup", boxClick);
 		boxArea.appendChild(box);
+		box.observe("click", boxClick);
+		box.observe("mousedown", boxMouseDown);
+		box.observe("mousemove", boxMouseMove);
+		box.observe("mouseup", boxMouseUp);
 	}
 
 	firstClick = true;
+}
+
+function boxMouseDown(event) {
+	this.style.zIndex = (++maxZ);
+	moving = this;
+	oldX = event.pointerX();
+	oldY = event.pointerY();
+}
+
+function boxMouseUp(event) {
+	moving = null;
+}
+//drags the box
+function boxMouseMove(event) {
+	if (oldX !== null && oldY !== null) {
+		var dx = event.pointerX() - oldX;
+		var dy = event.pointerY() - oldY;
+		this.style.left = parseInt(this.style.left) + dx + "px";
+		this.style.top = parseInt(this.style.top) + dy + "px";
+	}
+	oldX = event.pointerX();
+	oldY = event.pointerY();
 }
 
 function boxClick() {
