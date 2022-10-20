@@ -39,7 +39,7 @@ function startNewGame() {
 	var boxArea = document.getElementById("boxarea");
 	//gets rid of any boxes if new game is started before all boxes are gone
 	boxArea.innerHTML = "";
-	boxCount = parseInt(Math.random() * 21) + 30; 		//sets random number of boxes from in a range from 5 - 10
+	boxCount = parseInt(Math.random() * 5) + 15; 		//sets random number of boxes from in a range from 5 - 10
 	for(var i = 0; i < boxCount; i++) {
 		var box = document.createElement("div"); 		//creates a new box
 		box.className = "box";
